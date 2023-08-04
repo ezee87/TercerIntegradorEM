@@ -1,10 +1,12 @@
 import * as service from "../services/carts.services.js";
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
 
 export const getCartByIdCtr = async (req, res, next) => {
   try {
     const { cartId } = req.params;
     const item = await service.getCartByIdService(cartId);
-    if (!item) throw new Error("cart not found!");
+    if (!item) return httpResponse.NotFound(res, "Carrito no encontrado");
 
     res.json(item);
   } catch (error) {
@@ -25,7 +27,7 @@ export const createCartCtr = async (req, res, next) => {
   try {
     const cart = { ...req.body };
     const newCart = await service.createCartService(cart);
-    if (!newCart) throw new Error("Validation Error!");
+    if (!newCart) return httpResponse.NotFound(res, "Validacion erronea");
     else res.json(newCart);
   } catch (error) {
     next(error);
@@ -48,12 +50,8 @@ export const updateCartController = async (req, res, next) => {
 export const deleteCartCtr = async (req, res, next) => {
   try {
     const { cartId } = req.params;
-
     await service.deleteCartService(cartId);
-
-    res.json({
-      msg: "cart deleted",
-    });
+    return httpResponse.Ok(res, "Item eliminado");
   } catch (error) {
     next(error);
   }

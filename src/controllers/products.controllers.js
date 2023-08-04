@@ -1,4 +1,50 @@
-import * as service from "../services/products.services.js";
+import Controllers from "./class.controllers.js";
+import ProductService, {
+  addProductToCartService,
+} from "../services/products.services.js";
+import { createResponse } from "../utils.js";
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+
+const productService = new ProductService();
+
+export default class ProductController extends Controllers {
+  constructor() {
+    super(productService);
+  }
+
+  getProdById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const item = await this.service.getProdById(id);
+      if (!item) return httpResponse.Ok(res, "Producto eliminado");
+      else return httpResponse.Ok(res, item);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  createProd = async (req, res, next) => {
+    try {
+      const newItem = await this.service.createProd(req.body);
+      if (!newItem) return httpResponse.NotFound(res, "Validacion erronea!");
+      else return httpResponse.Ok(res, newItem);
+    } catch (error) {
+      next(error.message);
+    }
+  };
+
+  addProductToCartCtr = async (req, res, next) => {
+    try {
+      const { cartId } = req.params;
+      const { prodId } = req.params;
+      const newProduct = await addProductToCartService(cartId, prodId);
+      res.json(newProduct);
+    } catch (error) {
+      next(error);
+    }
+  };
+}
 
 /* export const getAllProductsCtr = async (req, res, next) => {
   try {
@@ -38,40 +84,6 @@ export const getAllProductsCtr = async (req, res, next) => {
   }
 };
 
-export const addProductToCartCtr = async (req, res, next) => {
-  try {
-    const { cartId } = req.params;
-    const { prodId } = req.params;
-    const newProduct = await service.addProductToCartService(cartId, prodId);
-    res.json(newProduct);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getByIdProduct = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const item = await service.getByIdProduct(id);
-    if (!item) throw new Error("Pet not found!");
-
-    res.json(item);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const createProductCtr = async (req, res, next) => {
-  try {
-    const prod = { ...req.body };
-    const newProduct = await service.createProductService(prod);
-    if (!newProduct) throw new Error("Validation error");
-    else res.json(newProduct);
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const updateProductCtr = async (req, res, next) => {
   try {
     const { prodId } = req.params;
@@ -92,7 +104,7 @@ export const deleteProductCtr = async (req, res, next) => {
   try {
     const { prodId } = req.params;
     await service.deleteProductService(prodId);
-    res.json({ message: "Product deleted successfully!" });
+    return httpResponse.Ok(res, "Item eliminado");
   } catch (error) {
     next(error);
   }
@@ -103,17 +115,9 @@ export const delProductCartController = async (req, res, next) => {
     const { cartId, prodId } = req.params;
     const product = await service.deleteProductCartService(cartId, prodId);
     if (product) {
-      res.status(201).send({
-        status: "success",
-        mensaje: "Product successfully deleted to cart!",
-        payload: product,
-      });
+      return httpResponse.Ok(res, "Item eliminado");
     } else {
-      res.status(404).send({
-        status: "error",
-        mensaje:
-          "The product or cart you are searching for could not be found!",
-      });
+      return httpResponse.NotFound(res, "Item no encontrado!");
     }
   } catch (error) {
     next(error);

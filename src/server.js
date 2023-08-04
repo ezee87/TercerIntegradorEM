@@ -8,11 +8,12 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { __dirname } from './utils.js';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-import ProductManager from "./daos/mongodb/products.dao.js";
-import MessagesManager from "./daos/filesystem/messages.dao.js";
+import ProductManager from "./persistence/daos/mongodb/dao/products.dao.js";
+import MessagesManager from "./persistence/daos/filesystem/messages.dao.js";
 import passport from 'passport';
 import routerApi from './routes/index.js';
 import config from './config.js';
+import "./persistence/daos/mongodb/connection.js";
 import './passport/local.js';
 import './passport/github.js';
 import './passport/jwt.js';
@@ -28,8 +29,6 @@ app.use(cookieParser())
 app.use(morgan('dev'));
 app.use(errorHandler);
 app.use(express.static(__dirname + '/public'));
-
-
 
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');

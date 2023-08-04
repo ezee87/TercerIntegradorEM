@@ -1,19 +1,19 @@
-import UserDao from "../daos/mongodb/user.dao.js";
+import UserDao from "../persistence/daos/mongodb/dao/user.dao.js";
 import { generateToken } from "../jwt/auth.js";
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+
 const userDao = new UserDao();
 
 export const register = async(req, res, next)=>{
     try {
         const { first_name, last_name, email, age, password } = req.body;
         const exist = await userDao.getByEmail(email);
-        if(exist) return res.status(400).json({ msg: 'User already exists' });
+        if(exist) return httpResponse.NotFound(res, "Ya existe el usuario!");
         const user = {first_name, last_name, email, age, password}
         const newUser = await userDao.createUser(user);
         const token = generateToken(newUser);
-        res.json({
-            msg: 'Register OK',
-            token
-        })
+        return httpResponse.Ok(res, token);
     } catch (error) {
         next(error);
     }
@@ -24,7 +24,7 @@ export const login = async(req, res, next)=>{
        const { email, password } = req.body;
        const user = await userDao.loginUser({email, password});
        if(!user){
-        res.json({msg: 'invalid credentials'});
+        return httpResponse.NotFound(res, "Credenciales invalidas");
        }
        const access_token = generateToken(user)
        res
@@ -53,7 +53,7 @@ export const loginFront = async(req, res, next)=>{
        const { email, password } = req.body;
        const user = await userDao.loginUser({email, password});
        if(!user){
-        res.json({msg: 'invalid credentials'});
+        return httpResponse.NotFound(res, "Credenciales invalidas");
        }
        const access_token = generateToken(user)
        res

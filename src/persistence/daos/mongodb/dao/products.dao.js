@@ -1,6 +1,6 @@
-import { ProductsModel } from "./models/products.model.js";
+import { ProductsModel } from "../models/products.model.js";
 
-import { CartModel } from "./models/carts.model.js";
+import { CartModel } from "../models/carts.model.js";
 
 export default class ProductsDaoMongoDB {
   async addProductToCart(cartId, prodId) {
