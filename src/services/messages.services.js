@@ -1,12 +1,13 @@
 import MessagesDaoMongoDB from "../daos/mongodb/messages.dao.js";
 const MessageDao = new MessagesDaoMongoDB();
+import {logger} from "../utils/logger.js"
 
 export const getAllService = async () => {
     try {
         const docs = await MessageDao.getAllMessages();
         return docs;
     } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de traer todos los messages")
     }
 };
 
@@ -16,7 +17,7 @@ export const getByIdService = async (id) => {
         if (!doc) throw new Error("Message not found");
         else return doc;
     } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de traer messages por Id")
     }
 };
 
@@ -26,7 +27,7 @@ export const createService = async (obj) => {
         if (!newProd) throw new Error("Validation Error!");
         else return newProd;
     } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de crear messages")
     }
 };
 
@@ -40,7 +41,7 @@ export const updateService = async (id, obj) => {
             return MessageUpd;
         }
     } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de actualizar messages")
     }
 };
 
@@ -49,6 +50,6 @@ export const deleteService = async (id) => {
         const MessageDel = await MessageDao.deleteMessage(id);
         return MessageDel;
     } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de eliminar messages")
     }
 };

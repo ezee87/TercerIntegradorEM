@@ -1,5 +1,6 @@
 import MongoDao from "./mongo.dao";
 import { TicketModel } from "../models/ticket.model";
+import {logger} from "../../../../utils/logger.js";
 
 export class DaoMDBTicket extends MongoDao {
   constructor() {
@@ -14,7 +15,7 @@ export class DaoMDBTicket extends MongoDao {
       });
       return newTicket;
     } catch (err) {
-      console.log(err);
+      logger.error("Error al crear un Ticket en mongodb")
     }
   }
 }

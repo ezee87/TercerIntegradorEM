@@ -1,6 +1,6 @@
 import { userModel } from '../models/user.model.js'
-
 import { createHash, isValidPassword } from '../../../../utils.js';
+import {logger} from "../../../../utils/logger.js";
 
 export default class UserDao {
   async createUser(user) {
@@ -19,7 +19,7 @@ export default class UserDao {
         return false;
       }
     } catch (error) {
-      console.log(error)
+      logger.error("Error al crear un usuario en mongodb")
       throw new Error(error)
     }
   }
@@ -27,16 +27,14 @@ export default class UserDao {
   async loginUser(user){
     try {
       const { email, password } = user;
-      // console.log(email);
       const userExist = await this.getByEmail(email); 
-      // console.log('dao', userExist);
       if(userExist){
         const passValid = isValidPassword(userExist, password)
         if(!passValid) return false
         else return userExist
       } return false
     } catch (error) {
-      console.log(error)
+      logger.error("Error al ingresar con un usuario en mongodb")
       throw new Error(error)
     }
   }
@@ -44,12 +42,11 @@ export default class UserDao {
   async getById(id){
     try {
       const userExist = await userModel.findById(id)
-      // console.log(userExist);
       if(userExist){
        return userExist
       } return false
     } catch (error) {
-      console.log(error)
+      logger.error("Error al traer un usuario por Id en mongodb")
       // throw new Error(error)
     }
   }
@@ -57,12 +54,11 @@ export default class UserDao {
   async getByEmail(email){
     try {
       const userExist = await userModel.findOne({email}); 
-      // console.log(userExist);
       if(userExist){
        return userExist
       } return false
     } catch (error) {
-      console.log(error)
+      logger.error("Error al traer un usuario por Email en mongodb")
       throw new Error(error)
     }
   }

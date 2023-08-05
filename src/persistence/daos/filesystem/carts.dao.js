@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { __dirname } from '../../path.js';
+import {logger} from "../../../utils/logger.js"
 
 const pathFile = 'carts.json';
 const pathProductManager = 'products.json'
@@ -24,7 +25,7 @@ export const getAllCarts = async() =>{
         }
         
     } catch (error) {
-        console.log(error);
+        logger.error("Error al traer todos los carritos en filesystem")
     }
 }
 
@@ -39,7 +40,7 @@ export const createCart = async(obj)=>{
         await fs.promises.writeFile(pathFile, JSON.stringify(cartsFile));
         return cart;
     } catch (error) {
-        console.log(error);
+      logger.error("Error al crear carrito en filesystem")
     }
 }
 
@@ -58,7 +59,7 @@ export const getCartById = async (id) => {
       }
       return null;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer carrito por id en filesystem")
       throw error;
     }
   };
@@ -70,32 +71,32 @@ export const getCartById = async (id) => {
       let cart;
       try {
         cart = await getCartById(idCart);
-        console.log('cart:', cart);
+    
       } catch (error) {
-        console.log(error);
+        logger.error("Error al guardar un producto en carrito en filesystem")
         return;
       }
   
       if (!cart) {
-        console.log(`El carrito ${idCart} no existe.`);
+        logger.error("El carrito buscado no existe en filesystem")
         return;
       }
   
       const productsFileExists = fs.existsSync(pathProductManager);
       if (!productsFileExists) {
-        console.log('El archivo products.json no existe.');
+        logger.error("El archivo products.js no existe en filesystem!")
         return;
       }
   
       const products = await getProducts();
       if (!products) {
-        console.log('No se encontraron productos.');
+        logger.error("No se encontraron productos en filesystem")
         return;
       }
   
       const product = products.find(product => product.id === parseInt(idProd));
       if (!product) {
-        console.log(`El producto ${idProd} no existe.`);
+        logger.error("No se encontro el producto con el ID buscado en filesystem")
         return;
       }
   
@@ -120,7 +121,7 @@ export const getCartById = async (id) => {
       return cart;
       
     } catch (error) {
-      console.log(error);
+      logger.error("Error al actualizar el carrito en filesystem")
       throw error;
     }
 

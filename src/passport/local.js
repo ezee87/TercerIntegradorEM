@@ -2,6 +2,7 @@ import UserDao from '../persistence/daos/mongodb/dao/user.dao.js';
 const userDao = new UserDao();
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import {logger} from "../utils/logger.js"
 
 const strategyOptions = {
     usernameField: 'email',
@@ -17,7 +18,7 @@ const signup = async (req, email, password, done) =>{
         return done(null, newUser);
 
     } catch (error) {
-        console.log(error);
+        logger.error("Error en signup passport local")
     }
 };
 

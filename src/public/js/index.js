@@ -48,7 +48,6 @@ form.onsubmit = (e) => {
 };
 
 socketClient.on("arrayProducts", (array) => {
-  console.log(array);
   let infoProducts = "";
   array.forEach((p) => {
 

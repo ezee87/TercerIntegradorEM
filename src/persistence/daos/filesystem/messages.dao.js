@@ -1,4 +1,5 @@
 import fs from "fs";
+import {logger} from "../../../utils/logger.js"
 
 export default class MessageManager {
     constructor() {
@@ -17,7 +18,7 @@ export default class MessageManager {
       await fs.promises.writeFile(this.pathFile, JSON.stringify(messageFile));
       return message;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al crear un message en filesystem")
     }
   }
 

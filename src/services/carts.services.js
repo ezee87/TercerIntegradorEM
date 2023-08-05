@@ -2,6 +2,7 @@ import CartDaoMongoDB from "../persistence/daos/mongodb/dao/carts.dao.js";
 const cartDao = new CartDaoMongoDB();
 import fs from "fs";
 import { __dirname } from "../utils.js";
+import {logger} from "../utils/logger.js"
 
 export const getCartByIdService = async (id) => {
   try {
@@ -9,7 +10,7 @@ export const getCartByIdService = async (id) => {
     if (!item) throw new Error("Cart not found!");
     else return item;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de traer un carrito por Id")
   }
 };
 
@@ -19,7 +20,7 @@ export const getAllCartsService = async () => {
     if (!item) throw new Error("Cart not found!");
     else return item;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de traer todos los carritos")
   }
 };
 
@@ -29,7 +30,7 @@ export const createCartService = async (obj) => {
     if (!newCart) throw new Error("Validation Error!");
     else return newCart;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de crear un carrito")
   }
 };
 
@@ -43,7 +44,7 @@ export const updateCartService = async (id, obj) => {
       return cartUpdated;
     }
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de actualizar un carrito por Id")
   }
 };
 
@@ -52,6 +53,6 @@ export const deleteCartService = async (id) => {
     const cartDeleted = await cartDao.deleteCart(id);
     return cartDeleted;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de eliminar un carrito por Id")
   }
 };

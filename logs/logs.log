@@ -1,0 +1,23 @@
+{"level":"debug","message":"mensaje con nivel debug"}
+{"level":"verbose","message":"mensaje con nivel verbose"}
+{"level":"info","message":"mensaje con nivel info"}
+{"level":"http","message":"mensaje con nivel http"}
+{"level":"warn","message":"mensaje con nivel warn"}
+{"level":"error","message":"mensaje con nivel error"}
+{"level":"info","message":"Servidor express escuchando en el puerto 8080"}
+{"level":"error","message":"Error en el endpoint de prueba"}
+{"level":"info","message":"Info en el endpoint de prueba"}
+{"level":"debug","message":"Debug en el endpoint de prueba"}
+{"level":"error","message":"Error en el endpoint de prueba"}
+{"level":"info","message":"Info en el endpoint de prueba"}
+{"level":"debug","message":"Debug en el endpoint de prueba"}
+{"level":"debug","message":"mensaje con nivel debug"}
+{"level":"verbose","message":"mensaje con nivel verbose"}
+{"level":"info","message":"mensaje con nivel info"}
+{"level":"http","message":"mensaje con nivel http"}
+{"level":"warn","message":"mensaje con nivel warn"}
+{"level":"error","message":"mensaje con nivel error"}
+{"level":"info","message":"Servidor express escuchando en el puerto 8080"}
+{"level":"error","message":"Error en el endpoint de prueba"}
+{"level":"info","message":"Info en el endpoint de prueba"}
+{"level":"debug","message":"Debug en el endpoint de prueba"}

@@ -3,6 +3,7 @@ import persistence from "../persistence/daos/factory.js";
 const { userManager } = persistence;
 import dotenv from "dotenv";
 dotenv.config();
+import {logger} from "../utils/logger.js"
 
 const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
@@ -13,15 +14,14 @@ export const checkAuth = async (req, res, next) => {
   try {
     const token = authHeader.split(" ")[1];
     const decode = jwt.verify(token, SECRET_KEY);
-    console.log("TOKEN DECODIFICADO");
-    console.log(decode);
+    logger.info("TOKEN DECODIFICADO")
     const user = await userManager.getById(decode.userId);
 
     if (!user) return res.status(400).json({ msg: "Unauthorized" });
     req.user = user;
     next();
   } catch (err) {
-    console.log(err);
+    logger.error("Error al decodificar token")
     return res.status(401).json({ msg: "Unauthorized" });
   }
 };

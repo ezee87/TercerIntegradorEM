@@ -1,3 +1,5 @@
+import {logger} from "../utils/logger.js"
+
 export default class Services {
     constructor(manager) {
       this.manager = manager;
@@ -8,7 +10,7 @@ export default class Services {
         const items = await this.manager.getAll();
         return items;
       } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de traer todos los elementos")
       }
     };
   
@@ -18,7 +20,7 @@ export default class Services {
         if (!item) return false;
         else return item;
       } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de traer elementos por Id")
       }
     };
   
@@ -28,7 +30,7 @@ export default class Services {
         if (!newItem) return false;
         else return newItem;
       } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de crear elementos")
       }
     };
   
@@ -42,7 +44,7 @@ export default class Services {
           return itemUpdated;
         }
       } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de actualizar elementos")
       }
     };
   
@@ -51,7 +53,7 @@ export default class Services {
         const itemDeleted = await this.manager.delete(id);
         return itemDeleted;
       } catch (error) {
-        console.log(error);
+        logger.error("Error en el servicio de eliminar elementos")
       }
     };
   }

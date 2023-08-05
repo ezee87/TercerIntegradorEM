@@ -1,5 +1,6 @@
 import { ProductsModel } from '../persistence/daos/mongodb/models/products.model.js';
 import {generateProduct} from '../utils/productsFaker.utils.js';
+import {logger} from "../utils/logger.js"
 
 export const createProductsFakerMock = async (cant = 100) => {
   const productsArray = []
@@ -16,6 +17,6 @@ export const getProductsFaker = async() => {
     const products = await ProductsModel.find({});
     return products;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de traer productos faker")
   }
 };

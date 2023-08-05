@@ -3,6 +3,7 @@ import factory from "../persistence/daos/factory.js";
 const { productManager } = factory;
 import ProductRepository from "../persistence/daos/repository/products.repository.js";
 import CartRepository from "../persistence/daos/repository/carts.repository.js";
+import {logger} from "../utils/logger.js"
 
 const prodRepository = new ProductRepository();
 const cartRepository = new CartRepository();
@@ -18,7 +19,7 @@ export default class ProductService extends Services {
       if (!item) return false;
       else return item;
     } catch (error) {
-      console.log(error);
+      logger.error("Error en el servicio de traer producto por Id")
     }
   };
 
@@ -28,7 +29,7 @@ export default class ProductService extends Services {
       if (!newItem) return false;
       else return newItem;
     } catch (error) {
-      console.log(error);
+      logger.error("Error en el servicio de crear producto")
     }
   };
 }
@@ -40,7 +41,7 @@ export const addProductToCartService = async (cartId, prodId) => {
     if (!exists) throw new Error("Product not found!");
     else return newProduct;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de añadir producto a un carrito")
   }
 };
 
@@ -50,7 +51,7 @@ export const getAllProductsService = async (page, limit) => {
     if (!item) throw new Error("Cart not found!");
     else return item;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de traer todos los productos")
   }
 };
 
@@ -64,7 +65,7 @@ export const updateProductService = async (prodId, obj) => {
       return productUpdated;
     }
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de actualizar producto")
   }
 };
 
@@ -73,7 +74,7 @@ export const deleteProductService = async (prodId) => {
     const prodDeleted = await productsDao.deleteProduct(prodId);
     return prodDeleted;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de eliminar producto por Id")
   }
 };
 
@@ -82,7 +83,7 @@ export const deleteProductCartService = async (cartId, prodId) => {
     const doc = await productsDao.deleteProductCart(cartId, prodId);
     return doc;
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de eliminar producto de un carrito")
   }
 };
 
@@ -91,7 +92,7 @@ export const filtrarPorCategorias = async(category)=>{
     const aggregation = await productsDao.filtrarPorCategorias(category);
     return aggregation
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de filtrar productos por categorias")
   }
 }
 
@@ -100,6 +101,6 @@ export const ordenarPorPrecios = async()=>{
     const aggregation = await productsDao.ordenarPorPrecios();
     return aggregation
   } catch (error) {
-    console.log(error);
+    logger.error("Error en el servicio de ordenar productos por precios")
   }
 }

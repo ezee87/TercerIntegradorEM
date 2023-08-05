@@ -17,9 +17,7 @@ form.onsubmit = (e) => {
     })
     .then((response) => response.json())
     .then((response)=>{
-        // console.log(response);
         localStorage.setItem('token', response.access_token);
-        console.log(document.cookie)
     })
 }
 

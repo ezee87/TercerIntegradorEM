@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { __dirname } from '../../../utils.js';
+import {logger} from "../../../utils/logger.js"
 
 export default class ProductManager {
 
@@ -27,7 +28,7 @@ async getAllProducts() {
         }
         
     } catch (error) {
-        console.log(error);
+        logger.error("Error al traer todos los productos en filesystem")
     }
 }
 
@@ -40,7 +41,7 @@ async getProductById(id) {
         }
         return false;
     } catch (error) {
-        console.log(error);
+        logger.error("Error al traer un producto por id en filesystem")
     }
 }
 
@@ -55,7 +56,7 @@ async createProduct(obj) {
         await fs.promises.writeFile(this.pathFile, JSON.stringify(productsFile));
         return product;
     } catch (error) {
-        console.log(error);
+        logger.error("Error al crear un producto en filesystem")
     }
 }
 
@@ -70,7 +71,7 @@ async updateProduct(obj, id) {
         }
         await fs.promises.writeFile(this.pathFile, JSON.stringify(productsFile));
     } catch (error) {
-        console.log(error);
+        logger.error("Error al actualizar un producto en filesystem")
     }
 }
 
@@ -84,7 +85,7 @@ async deleteProductById(id) {
             throw new Error(`El producto ${id} no se encuentra`);
         }
     } catch (error) {
-        console.log(error);
+        logger.error("Error al eliminar un producto en filesystem")
     }
 }
 
@@ -94,7 +95,7 @@ async deleteAllProducts() {
             await fs.promises.unlink(this.pathFile)
         }
     } catch (error) {
-        console.log(error);
+        logger.error("Error al eliminar todos los productos en filesystem")
     }
 }
 }

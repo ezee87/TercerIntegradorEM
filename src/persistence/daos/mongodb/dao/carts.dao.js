@@ -1,4 +1,5 @@
 import { CartModel } from "../models/carts.model.js";
+import {logger} from "../../../../utils/logger.js";
 
 export default class CartDaoMongoDB {
   async getAllCarts() {
@@ -6,7 +7,7 @@ export default class CartDaoMongoDB {
       const response = await CartModel.find({});
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer todos los carritos en mongodb")
     }
   }
   async getCartById(id) {
@@ -14,7 +15,7 @@ export default class CartDaoMongoDB {
       const response = await CartModel.findById(id);
       return response.populate("products");
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer carrito por ID en mongodb")
     }
   }
 
@@ -23,7 +24,7 @@ export default class CartDaoMongoDB {
       const response = await CartModel.create(obj);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al crear carritos en mongodb")
     }
   }
 
@@ -32,7 +33,7 @@ export default class CartDaoMongoDB {
       await CartModel.updateOne({ _id: id }, obj);
       return obj;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al actualizar un carrito en mongodb")
     }
   }
 
@@ -41,7 +42,7 @@ export default class CartDaoMongoDB {
       const response = await CartModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al eliminar un carrito en mongodb")
     }
   }
 }

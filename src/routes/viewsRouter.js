@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getAllProductsCtr } from "../controllers/products.controllers.js";
 import UserDao from '../persistence/daos/mongodb/dao/user.dao.js'
+import { logger } from '../utils/logger.js'
 const userDao = new UserDao()
 
 const router = Router();
@@ -30,15 +31,19 @@ router.get("/profile", async (req, res, next) => {
     const products = await getAllProductsCtr(req, res, next); // Obtener los productos
 
     res.render('profile', { products }); // Pasar directamente el array de productos
-    console.log(products)
   } catch (error) {
-    console.log(error);
-    res.status(500).send('Error hola');
+    logger.error("Error al traer los productos para mostrar en /profile")
   }
 });
 
 router.get('/jwt', (req, res) => {
   res.render('jwt')
+});
+
+router.get("/loggerTest", (req, res) => {
+  logger.error("Error en el endpoint de prueba");
+  logger.info("Info en el endpoint de prueba")
+  logger.debug("Debug en el endpoint de prueba")
 });
 
 export default router;

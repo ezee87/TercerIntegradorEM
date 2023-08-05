@@ -1,30 +1,30 @@
 import mongoose from 'mongoose';
 import config from '../config.js'
+import { logger } from '../utils/logger.js'
 
 let MONGO_URL = '';
 
 switch (config.NODE_ENV) {
     case 'dev':
         MONGO_URL = config.MONGO_LOCAL;
-        console.log('db local');
+        logger.info("Entorno de produccion dev")
         break;
     case 'qa':
         MONGO_URL = config.MONGO_QA;
-        console.log('db qa');
+        logger.info("Entorno de produccion qa")
         break;
     case 'prod':
         MONGO_URL = config.MONGO_PROD;
-        console.log('db prod');
-        
+        logger.info("Entorno de produccion prod")
         break;
     default:
         MONGO_URL = config.MONGO_PROD;
-        console.log('db prod');
+        logger.info("Entorno de produccion prod")
         break;
 }
 
 try {
     await mongoose.connect(MONGO_URL);
 } catch (error) {
-    console.log(error);
+    logger.error("Error al conectar al servidor Moongose")
 }

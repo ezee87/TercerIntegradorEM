@@ -8,10 +8,6 @@ const strategyOptions = {
   secretOrKey: "1234",
 };
 
-/* ------------------------------------ - ----------------------------------- */
-// !Cookies extractor consigna
-
-
 const cookieExtractor = (req) => {
   const token = req.cookies.token;
   return token;
@@ -23,7 +19,6 @@ const strategyOptionsCookies = {
 };
 
 const verifyToken = async (jwt_payload, done) => {
-  console.log("payload--->", jwt_payload);
   const user = await userDao.getById(jwt_payload.userId);
   if (!user) return done(null, false);
   return done(null, jwt_payload);
@@ -37,7 +32,6 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("user", user);
   done(null, user.userId);
 });
 

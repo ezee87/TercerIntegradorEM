@@ -1,4 +1,5 @@
 import { MessagesModel } from "./models/messages.model.js";
+import {logger} from "../../../../utils/logger.js";
 
 export default class MessagesDaoMongoDB {
   async getAllMessages() {
@@ -6,7 +7,7 @@ export default class MessagesDaoMongoDB {
       const response = await MessagesModel.find({});
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer todos los mensagges en mongodb")
     }
   }
 
@@ -15,7 +16,7 @@ export default class MessagesDaoMongoDB {
       const response = await MessagesModel.findById(id);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer un message por Id en mongodb")
     }
   }
 
@@ -24,7 +25,7 @@ export default class MessagesDaoMongoDB {
       const response = await MessagesModel.create(obj);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al crear un message en mongodb")
     }
   }
 
@@ -33,7 +34,7 @@ export default class MessagesDaoMongoDB {
       await MessagesModel.updateOne({ _id: id }, obj);
       return obj;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al actualizar un message en mongodb")
     }
   }
 
@@ -42,7 +43,7 @@ export default class MessagesDaoMongoDB {
       const response = await MessagesModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al eliminar un message en mongodb")
     }
   }
 }

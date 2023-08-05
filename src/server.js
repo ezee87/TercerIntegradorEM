@@ -13,6 +13,7 @@ import MessagesManager from "./persistence/daos/filesystem/messages.dao.js";
 import passport from 'passport';
 import routerApi from './routes/index.js';
 import config from './config.js';
+import { logger } from './utils/logger.js'
 import "./persistence/daos/mongodb/connection.js";
 import './passport/local.js';
 import './passport/github.js';
@@ -56,8 +57,8 @@ app.use('/api', routerApi);
 const PORT = config.PORT;
 
 const httpServer = app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port ${PORT}`);
-  console.log(process.env.PORT)
+  logger.info(`Servidor express escuchando en el puerto ${PORT}`)
+
 });
 
 const socketServer = new Server(httpServer);
@@ -65,9 +66,9 @@ const socketServer = new Server(httpServer);
 const arrayProducts = [];
 
 socketServer.on("connection", async (socket) => {
-  console.log("usuario conectado!", socket.id);
+  logger.info("Usuario socket conectado")
   socket.on("disconnect", () => {
-    console.log("usuario desconectado!");
+   logger.info("usuario desconectado!");
   });
 
   socketServer.emit("messages", await messagesManager.getAllmessage());

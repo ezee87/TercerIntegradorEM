@@ -1,5 +1,7 @@
 import Services from "./class.services.js";
 import factory from '../persistence/daos/factory.js';
+import {logger} from "../utils/logger.js"
+
 const { userManager } = factory;
 
 export default class UserService extends Services {
@@ -12,7 +14,7 @@ export default class UserService extends Services {
       const token = await this.manager.register(user);
       return token;
     } catch (error) {
-      console.log(error);
+      logger.error("Error en el servicio de register user")
     }
   };
 
@@ -21,7 +23,7 @@ export default class UserService extends Services {
       const userExist = await this.manager.login(user);
       return userExist;
     } catch (error) {
-      console.log(error);
+      logger.error("Error en el servicio de login user")
     }
   };
 }

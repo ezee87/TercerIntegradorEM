@@ -1,6 +1,6 @@
 import { ProductsModel } from "../models/products.model.js";
-
 import { CartModel } from "../models/carts.model.js";
+import {logger} from "../../../../utils/logger.js";
 
 export default class ProductsDaoMongoDB {
   async addProductToCart(cartId, prodId) {
@@ -9,7 +9,7 @@ export default class ProductsDaoMongoDB {
       cart.products.push(prodId);
       cart.save();
     } catch (error) {
-      console.log(error);
+      logger.error("Error al agregar un producto al carrito en mongodb")
     }
   }
   async getProductById(id) {
@@ -17,7 +17,7 @@ export default class ProductsDaoMongoDB {
       const response = await ProductsModel.findById(id)
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al un producto por Id en mongodb")
     }
   }
 
@@ -26,7 +26,7 @@ export default class ProductsDaoMongoDB {
       const response = await ProductsModel.paginate({}, { page, limit });
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al traer todos los productos en mongodb")
     }
   }
 
@@ -35,7 +35,7 @@ export default class ProductsDaoMongoDB {
       const response = await ProductsModel.create(obj);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al crear un producto en mongodb")
     }
   }
 
@@ -44,7 +44,7 @@ export default class ProductsDaoMongoDB {
       await ProductsModel.updateOne({ _id: id }, obj);
       return obj;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al actualizar un producto en mongodb")
     }
   }
 
@@ -53,7 +53,7 @@ export default class ProductsDaoMongoDB {
       const response = await ProductsModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al eliminar un producto en mongodb")
     }
   }
 
@@ -78,7 +78,7 @@ export default class ProductsDaoMongoDB {
 
       return cart;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al eliminar un producto de un carrito en mongodb")
     }
   }
 
@@ -92,7 +92,7 @@ export default class ProductsDaoMongoDB {
       ])
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al filtrar productos por categorias en mongodb")
     }
   }
 
@@ -106,7 +106,7 @@ export default class ProductsDaoMongoDB {
       ])
       return response;
     } catch (error) {
-      console.log(error);
+      logger.error("Error al ordenar productos por precios en mongodb")
     }
   }
 
